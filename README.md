@@ -39,6 +39,7 @@ It’s the perfect hub for anyone who wants to bring their favorite characters t
 https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
 ### Watch the full video:
+
 [![Watch the full video](https://github.com/Virgulas/waifus-hub/blob/main/assets/video_screenshot.png)](https://youtu.be/wDFmRfYrRo4)
 
 ---
@@ -91,7 +92,7 @@ https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
 If you find Waifus Hub useful, consider supporting me:
 
-<a href="https://www.buymeacoffee.com/yourusername" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="buymeacoffee.com/brunoawepn" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ---
 
