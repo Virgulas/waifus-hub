@@ -34,9 +34,7 @@ It’s the perfect hub for anyone who wants to bring their favorite characters t
 
 ## 🎥 Video Examples
 
-- [Adding and starting a bot](https://github.com/user-attachments/assets/example-video-1)
-- [Customizing prompts and pictures](https://github.com/user-attachments/assets/example-video-2)
-- [Running multiple bots at once](https://github.com/user-attachments/assets/example-video-3)
+- [Running multiple bots at once](https://github.com/Virgulas/waifus-hub/blob/main/assets/video%20example.mp4)
 
 ---
 
