@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Waifus Hub</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+        background: #121212;
+        color: #eee;
+      }
+      button {
+        background: #333;
+        color: #eee;
+        border: none;
+        padding: 6px 10px;
+        margin: 2px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #444;
+      }
+      input {
+        background: #1e1e1e;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 4px;
+        padding: 4px;
+      }
+      .bot {
+        border: 1px solid #333;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        background: #1a1a1a;
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 10px;
+        align-items: center;
+      }
+      .bot img {
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid #444;
+        background: #222;
+      }
+      .bot-details {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="add-bot">+ Add Bot</button>
+    <div id="bots"></div>
+
+    <script>
+      const botsDiv = document.getElementById("bots");
+      const addBtn = document.getElementById("add-bot");
+
+      function newId() {
+        return window.crypto && window.crypto.randomUUID
+          ? window.crypto.randomUUID()
+          : `bot-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+      function createBotCard(botData = {}) {
+        const id = botData.id || newId();
+        const picture = botData.picture || "";
+
+        const div = document.createElement("div");
+        div.className = "bot";
+        div.id = `card-${id}`;
+        div.innerHTML = `
+    <img id="${id}-pic" src="${picture || ""}" alt="Bot Picture">
+    <div class="bot-details">
+      <label>Name: <input id="${id}-name" value="${
+          botData.name || ""
+        }" /></label>
+      
+      <details>
+        <summary>⚙️ Settings</summary>
+        <label>Token: <input id="${id}-token" style="width: 300px;" value="${
+          botData.token || ""
+        }" /></label>
+        <label>API Key: <input id="${id}-apikey" style="width: 300px;" value="${
+          botData.apiKey || ""
+        }" /></label>
+        <label>Channel ID: <input id="${id}-channel" value="${
+          botData.channel || ""
+        }" /></label>
+        <label>Bot ID: <input id="${id}-botid" value="${
+          botData.botId || ""
+        }" /></label>
+      </details>
+
+      <details>
+        <summary>🖼 Picture</summary>
+        <button id="${id}-upload">📷 Upload Picture</button>
+      </details>
+
+      <details>
+        <summary>💬 Prompt</summary>
+        <textarea id="${id}-prompt" rows="4" style="width: 100%;">${
+          botData.prompt || ""
+        }</textarea>
+      </details>
+
+      <div>
+        <button id="${id}-save">💾 Save</button>
+        <button id="${id}-start">▶ Start</button>
+        <button id="${id}-stop">⏹ Stop</button>
+        <button id="${id}-delete">🗑 Delete</button>
+        <span id="${id}-status">${
+          botData.starting
+            ? "🟡 starting..."
+            : botData.status === "running"
+            ? "🟢 running"
+            : "🔴 stopped"
+        }</span>
+      </div>
+    </div>
+  `;
+
+        botsDiv.appendChild(div);
+
+        const $name = document.getElementById(`${id}-name`);
+        const $token = document.getElementById(`${id}-token`);
+        const $apikey = document.getElementById(`${id}-apikey`);
+        const $channel = document.getElementById(`${id}-channel`);
+        const $botid = document.getElementById(`${id}-botid`);
+        const $prompt = document.getElementById(`${id}-prompt`);
+        const $status = document.getElementById(`${id}-status`);
+        const $save = document.getElementById(`${id}-save`);
+        const $start = document.getElementById(`${id}-start`);
+        const $stop = document.getElementById(`${id}-stop`);
+        const $delete = document.getElementById(`${id}-delete`);
+        const $upload = document.getElementById(`${id}-upload`);
+        const $pic = document.getElementById(`${id}-pic`);
+
+        function currentBot() {
+          return {
+            id,
+            name: $name.value || id,
+            token: $token.value || "",
+            apiKey: $apikey.value || "",
+            channel: $channel.value || "",
+            botId: $botid.value || "",
+            prompt: $prompt.value || "",
+            status: $status.textContent.includes("running")
+              ? "running"
+              : "stopped",
+            starting: $status.textContent.includes("starting") ? true : false,
+            picture: $pic.src || "",
+          };
+        }
+
+        $save.onclick = () => {
+          window.electronAPI.saveBot(currentBot());
+          const oldText = $save.textContent;
+          $save.textContent = "✅ Saved";
+          setTimeout(() => ($save.textContent = oldText), 800);
+        };
+
+        $start.onclick = () => {
+          const bot = { ...currentBot(), starting: true };
+          window.electronAPI.startBot(bot);
+          window.electronAPI.saveBot(bot);
+        };
+
+        $stop.onclick = () => {
+          window.electronAPI.stopBot(id);
+        };
+
+        $delete.onclick = () => {
+          if (!confirm("Delete this bot? This cannot be undone.")) return;
+          const removed = window.electronAPI.deleteBot(id);
+          if (removed) div.remove();
+        };
+
+        $upload.onclick = async () => {
+          const relativePath = await window.electronAPI.pickImage();
+          if (relativePath) {
+            $pic.src = relativePath; // stored as "pictures/filename.png"
+            window.electronAPI.saveBot(currentBot());
+          }
+        };
+      }
+
+      addBtn.onclick = () => createBotCard();
+
+      const loaded_bots = window.electronAPI.loadBots();
+      loaded_bots.forEach((bot) => createBotCard(bot));
+
+      window.electronAPI.onBotStatus(({ id, status }) => {
+        const statusSpan = document.getElementById(`${id}-status`);
+        if (statusSpan) {
+          statusSpan.textContent =
+            status === "running" ? "🟢 running" : "🔴 stopped";
+        }
+      });
+    </script>
+  </body>
+</html>
