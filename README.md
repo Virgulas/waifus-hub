@@ -48,7 +48,7 @@ https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
 ### **Step 1 — Install Waifus Hub**
 
-1. Go to the [Releases](https://github.com/your-repo/releases) page and download the latest version of Waifus Hub.
+1. Go to the [Releases](https://github.com/Virgulas/waifus-hub/releases) page and download the latest version of Waifus Hub.
 2. Extract the files to your desired location.
 3. Run `waifus-hub.exe` (or the appropriate binary for your OS).
 
