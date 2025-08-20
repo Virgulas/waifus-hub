@@ -7,6 +7,7 @@ let mainWindow;
 const bots = {};
 
 function resolveAppPath(...parts) {
+  // In dev: project folder; in packaged: .../resources/app
   const base = app.isPackaged
     ? path.join(process.resourcesPath, "app")
     : app.getAppPath();
@@ -31,8 +32,14 @@ ipcMain.on("start-bot", (event, bot) => {
 
   const botPath = path.join(__dirname, "bot.js");
 
+  // ✅ Electron as Node: prevents extra BrowserWindow
   const child = spawn(process.execPath, [botPath], {
     cwd: path.dirname(botPath),
+    env: {
+      ...process.env,
+      ELECTRON_RUN_AS_NODE: "1",
+      BOT_TOKEN: bot.token,
+    },
     stdio: ["pipe", "pipe", "pipe"],
   });
 
@@ -64,7 +71,6 @@ ipcMain.on("start-bot", (event, bot) => {
 ipcMain.on("stop-bot", (event, botId) => {
   const child = bots[botId];
   if (!child) return;
-  // Try graceful stop; fall back if needed
   try {
     child.kill("SIGINT");
   } catch (_) {}
@@ -75,4 +81,29 @@ ipcMain.on("stop-bot", (event, botId) => {
       } catch (_) {}
     }
   }, 1500);
+});
+
+// ✅ Pick Image handler restored
+ipcMain.handle("pick-image", async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ["openFile"],
+    filters: [{ name: "Images", extensions: ["png", "jpg", "jpeg", "gif"] }],
+  });
+  if (result.canceled || result.filePaths.length === 0) return null;
+
+  const sourcePath = result.filePaths[0];
+
+  // Save to userData/pictures (safe in dev + packaged)
+  const picturesDir = path.join(app.getPath("userData"), "pictures");
+  if (!fs.existsSync(picturesDir)) {
+    fs.mkdirSync(picturesDir, { recursive: true });
+  }
+
+  const fileName = Date.now() + "-" + path.basename(sourcePath);
+  const destPath = path.join(picturesDir, fileName);
+
+  fs.copyFileSync(sourcePath, destPath);
+
+  // Return file:// path so renderer can use <img src="">
+  return "file://" + destPath;
 });
