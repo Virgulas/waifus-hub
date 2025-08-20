@@ -50,20 +50,31 @@ https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
 1. Go to the [Releases](https://github.com/Virgulas/waifus-hub/releases) page and download the latest version of Waifus Hub.
 2. Extract the files to your desired location.
-3. Run `waifus-hub.exe` (or the appropriate binary for your OS).
+3. Run `waifus-hub.exe`.
 
 ### **Step 2 — Create Your Discord Application**
 
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications).
-2. Create a **New Application** and enable the **Bot** option.
-3. Copy the **Bot Token** (you will use this inside Waifus Hub).
-4. Invite the bot to your server using the **OAuth2 URL Generator** (give it the required permissions).
+2. Create a **New Application** and enable the **Bot** option. The bot should be configured as the character you intend to make.
+3. Copy the **Bot Token** (you might have to reset the token) in the bot tab (you will use this inside Waifus Hub).
+4. Go to the 'Privileged Gateway Intents' section and enable all intents there.
+5. Invite the bot to your server using the **OAuth2 URL Generator** (give it the required permissions).
 
-### **Step 3 — Add Your Bot to Waifus Hub**
+### **Step 3 — Get Your Gemini API Key**
 
-1. Open Waifus Hub.
+1. Go to the [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Sign in with your **Google Account**.
+3. Click **Create API Key**.
+4. Copy the generated key and keep it safe — you’ll need it inside Waifus Hub.
+5. (Optional) You can manage or delete your API keys from the same page.
+
+---
+
+### **Step 4 — Add Your Bot to Waifus Hub**
+
+1. Open **Waifus Hub**.
 2. Click **+ Add Bot**.
-3. Enter the **Token**, **Channel ID**, and **Bot ID**.
+3. Enter the **Token**, **Channel ID**, **Bot ID**, and your **Gemini API Key**.
 4. Upload a picture and write your custom prompt.
 5. Click **Start** and your bot will join your server!
 
