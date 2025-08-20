@@ -38,6 +38,8 @@ It’s the perfect hub for anyone who wants to bring their favorite characters t
 
 https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
+[![Watch the full video](https://github.com/Virgulas/waifus-hub/blob/main/assets/video_screenshot.png)](https://youtu.be/wDFmRfYrRo4)
+
 ---
 
 ## 🖥️ Installation & Setup
