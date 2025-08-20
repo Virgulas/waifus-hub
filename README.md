@@ -92,7 +92,7 @@ https://github.com/user-attachments/assets/2f606493-d181-41e0-bed9-ea8cccbc6209
 
 If you find Waifus Hub useful, consider supporting me:
 
-<a href="buymeacoffee.com/brunoawepn" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/brunoawepn" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ---
 
